@@ -1,0 +1,59 @@
+function solve(input) {
+
+    let targets = input.shift().split(' ').map(Number)
+
+    let arr = input.shift().split(' ')
+    let command = arr.shift()
+
+    while (command != 'End') {
+
+        if (command === 'Shoot') {
+            let index = Number(arr.shift())
+            let power = Number(arr.shift())
+            if (index >= 0 && index < targets.length) {
+                if (targets[index] <= power) {
+                    targets.splice(index, 1)
+                } else {
+                    targets[index] = targets[index] - power
+                }
+            }
+
+        } else if (command === 'Add') {
+            let index = Number(arr.shift())
+            let value = Number(arr.shift())
+
+            if (index >= 0 && index < targets.length) {
+                targets.splice(index, 0, value)
+            } else {
+                console.log('Invalid placement!')
+            }
+
+        } else if (command === 'Strike') {
+            let index = Number(arr.shift())
+            let radius = Number(arr.shift())
+
+            if (index >= 0 && index < targets.length) {
+                if (index - radius >= 0 && index + radius < targets.length) {
+                    targets.splice(index - radius, radius + radius + 1)
+                } else {
+                    console.log("Strike missed!")
+                }
+            } else {
+                console.log("Strike missed!")
+            }
+        }
+
+        arr = input.shift().split(' ')
+        command = arr.shift()
+    }
+
+    console.log(targets.join('|'))
+
+}
+solve(["52 74 23 44 96 110",
+    "Shoot 5 10.5",
+    "Shoot 1 80",
+    "Strike 2 1",
+    "Add 22 3",
+    "End"])
+
